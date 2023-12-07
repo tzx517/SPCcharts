@@ -1,0 +1,14 @@
+Package: SPCcharts
+Title: Simple Statistical Process Control (SPC) Charts
+Version: 0.0.0.9000
+Author: Yuhang Zhou, Zhixin Tang, Shuyu Liu
+Maintainer: Shuyu Liu <shuyu.liu@ufl.edu>
+Description: This R package provides tools for calculating and plotting Exponentially Weighted Moving Average (EWMA), Cumulative Sum (CUSUM), and Shewhart charts for standardized data with distribution Normal(0,1). It’s designed for people interested in statistical process control and possible time series analysis..
+License: GPL-3
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
+Suggests: knitr, rmarkdown
+VignetteBuilder: knitr
+NeedsCompilation: no
+Packaged: 2023-12-07 01:25:55 UTC; DELL

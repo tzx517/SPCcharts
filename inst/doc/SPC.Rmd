@@ -1,0 +1,54 @@
+---
+title: "SPCcharts"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{SPC}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+## <SPCcharts>
+
+This vignette offers a comprehensive guide on creating statistical process control charts, providing detailed steps and insights for effective data analysis and quality control.
+
+## Overview 
+
+1. The package <SPCcharts> contains 3 functions to calculating Expoenential Weighted Moving Average (EWMA), Cumulative Sum (CUSUM), and Shewhart charts. Each function would result in calculated chart statistics with corresponding control charts. For EWMA chart, shift parameter λ is specified to be .4, and limit constant L is specified to be 10. For CUSUM chart, the allowance constant is set to be .75, and the control limit is set to be 2.5 to achieve ARL0 = 200. For Shewhart charts, the mean value and standard deviation for null hypothesis are set to be 1 and 0 respectively. 
+
+2. The data input for all three functions — Exponentially Weighted Moving Average (EWMA), Cumulative Sum (CUSUM), and Shewhart charts — are presupposed to adhere to a Normal distribution, characterized by a mean of 0 and a standard deviation of 1.
+
+3. This package is ideally suited for individuals engaged in statistical process control, offering valuable resources for monitoring and controlling processes. Additionally, it presents opportunities for conducting sophisticated time series analysis, making it an indispensable tool for professionals and enthusiasts in the field of statistics and data analysis.
+
+
+## Example of usage 
+
+For the functions EwmA() and CusuM(), the input should be a row vector with data to be monitored in interests sequentially listed from left to right. 
+
+```{r}
+library(SPCcharts)
+set.seed(10082)
+a <- rnorm(20, mean = 0, sd = 1)
+b <- rnorm(20, mean = 1, sd = 1)
+c <- c(a,b)
+as.matrix(c)
+c <- t(c)
+EwmA(c)
+CusuM(c)
+```
+<br/>
+```{r}
+set.seed(10083)
+A <- matrix(rnorm(100,0,1),1,100)
+B <- matrix(rnorm(100,1,1),1,100)
+C <- cbind(A,B)
+Shewhart(C)
+```
+<br/>
+In these output charts, the x-axis represents time points, and the horizontal lines are significant lines. These plots are useful for identifying time points where data or products may exhibit problems. Normally, the connecting lines in the chart should remain below this horizontal line, indicating stable performance or the absence of significant differences at those time points.
+

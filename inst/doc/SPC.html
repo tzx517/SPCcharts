@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>SPCcharts</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">SPCcharts</h1>
+
+
+
+<div id="section" class="section level2">
+<h2><SPCcharts></h2>
+<p>This vignette offers a comprehensive guide on creating statistical
+process control charts, providing detailed steps and insights for
+effective data analysis and quality control.</p>
+</div>
+<div id="overview" class="section level2">
+<h2>Overview</h2>
+<ol style="list-style-type: decimal">
+<li><p>The package <SPCcharts> contains 3 functions to calculating
+Expoenential Weighted Moving Average (EWMA), Cumulative Sum (CUSUM), and
+Shewhart charts. Each function would result in calculated chart
+statistics with corresponding control charts. For EWMA chart, shift
+parameter λ is specified to be .4, and limit constant L is specified to
+be 10. For CUSUM chart, the allowance constant is set to be .75, and the
+control limit is set to be 2.5 to achieve ARL0 = 200. For Shewhart
+charts, the mean value and standard deviation for null hypothesis are
+set to be 1 and 0 respectively.</p></li>
+<li><p>The data input for all three functions — Exponentially Weighted
+Moving Average (EWMA), Cumulative Sum (CUSUM), and Shewhart charts — are
+presupposed to adhere to a Normal distribution, characterized by a mean
+of 0 and a standard deviation of 1.</p></li>
+<li><p>This package is ideally suited for individuals engaged in
+statistical process control, offering valuable resources for monitoring
+and controlling processes. Additionally, it presents opportunities for
+conducting sophisticated time series analysis, making it an
+indispensable tool for professionals and enthusiasts in the field of
+statistics and data analysis.</p></li>
+</ol>
+</div>
+<div id="example-of-usage" class="section level2">
+<h2>Example of usage</h2>
+<p>For the functions EwmA() and CusuM(), the input should be a row
+vector with data to be monitored in interests sequentially listed from
+left to right.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(SPCcharts)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">10082</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">20</span>, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">20</span>, <span class="at">mean =</span> <span class="dv">1</span>, <span class="at">sd =</span> <span class="dv">1</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>c <span class="ot">&lt;-</span> <span class="fu">c</span>(a,b)</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="fu">as.matrix</span>(c)</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="co">#&gt;              [,1]</span></span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="co">#&gt;  [1,] -1.62840740</span></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="co">#&gt;  [2,] -0.31101902</span></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="co">#&gt;  [3,] -0.01462950</span></span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="co">#&gt;  [4,]  0.04884506</span></span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a><span class="co">#&gt;  [5,]  1.03761655</span></span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a><span class="co">#&gt;  [6,]  0.42042896</span></span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a><span class="co">#&gt;  [7,] -0.49932706</span></span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a><span class="co">#&gt;  [8,]  1.71978040</span></span>
+<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a><span class="co">#&gt;  [9,]  1.03506959</span></span>
+<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a><span class="co">#&gt; [10,] -1.24457853</span></span>
+<span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a><span class="co">#&gt; [11,] -0.17316812</span></span>
+<span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a><span class="co">#&gt; [12,] -1.41816484</span></span>
+<span id="cb1-20"><a href="#cb1-20" tabindex="-1"></a><span class="co">#&gt; [13,]  0.62791134</span></span>
+<span id="cb1-21"><a href="#cb1-21" tabindex="-1"></a><span class="co">#&gt; [14,] -0.42400760</span></span>
+<span id="cb1-22"><a href="#cb1-22" tabindex="-1"></a><span class="co">#&gt; [15,]  0.05050326</span></span>
+<span id="cb1-23"><a href="#cb1-23" tabindex="-1"></a><span class="co">#&gt; [16,] -0.29002779</span></span>
+<span id="cb1-24"><a href="#cb1-24" tabindex="-1"></a><span class="co">#&gt; [17,] -0.44437142</span></span>
+<span id="cb1-25"><a href="#cb1-25" tabindex="-1"></a><span class="co">#&gt; [18,]  0.40838808</span></span>
+<span id="cb1-26"><a href="#cb1-26" tabindex="-1"></a><span class="co">#&gt; [19,] -0.26652227</span></span>
+<span id="cb1-27"><a href="#cb1-27" tabindex="-1"></a><span class="co">#&gt; [20,] -0.74199317</span></span>
+<span id="cb1-28"><a href="#cb1-28" tabindex="-1"></a><span class="co">#&gt; [21,]  1.55011982</span></span>
+<span id="cb1-29"><a href="#cb1-29" tabindex="-1"></a><span class="co">#&gt; [22,]  1.42069838</span></span>
+<span id="cb1-30"><a href="#cb1-30" tabindex="-1"></a><span class="co">#&gt; [23,]  2.20648637</span></span>
+<span id="cb1-31"><a href="#cb1-31" tabindex="-1"></a><span class="co">#&gt; [24,]  2.00558727</span></span>
+<span id="cb1-32"><a href="#cb1-32" tabindex="-1"></a><span class="co">#&gt; [25,]  0.19850898</span></span>
+<span id="cb1-33"><a href="#cb1-33" tabindex="-1"></a><span class="co">#&gt; [26,]  1.55247688</span></span>
+<span id="cb1-34"><a href="#cb1-34" tabindex="-1"></a><span class="co">#&gt; [27,]  1.08083570</span></span>
+<span id="cb1-35"><a href="#cb1-35" tabindex="-1"></a><span class="co">#&gt; [28,]  1.08247375</span></span>
+<span id="cb1-36"><a href="#cb1-36" tabindex="-1"></a><span class="co">#&gt; [29,]  1.56673849</span></span>
+<span id="cb1-37"><a href="#cb1-37" tabindex="-1"></a><span class="co">#&gt; [30,]  2.38071471</span></span>
+<span id="cb1-38"><a href="#cb1-38" tabindex="-1"></a><span class="co">#&gt; [31,] -0.02783536</span></span>
+<span id="cb1-39"><a href="#cb1-39" tabindex="-1"></a><span class="co">#&gt; [32,]  1.26071755</span></span>
+<span id="cb1-40"><a href="#cb1-40" tabindex="-1"></a><span class="co">#&gt; [33,]  1.07066784</span></span>
+<span id="cb1-41"><a href="#cb1-41" tabindex="-1"></a><span class="co">#&gt; [34,]  1.90393943</span></span>
+<span id="cb1-42"><a href="#cb1-42" tabindex="-1"></a><span class="co">#&gt; [35,]  1.54568681</span></span>
+<span id="cb1-43"><a href="#cb1-43" tabindex="-1"></a><span class="co">#&gt; [36,]  2.28866775</span></span>
+<span id="cb1-44"><a href="#cb1-44" tabindex="-1"></a><span class="co">#&gt; [37,]  1.08787503</span></span>
+<span id="cb1-45"><a href="#cb1-45" tabindex="-1"></a><span class="co">#&gt; [38,]  2.54058945</span></span>
+<span id="cb1-46"><a href="#cb1-46" tabindex="-1"></a><span class="co">#&gt; [39,]  1.18849424</span></span>
+<span id="cb1-47"><a href="#cb1-47" tabindex="-1"></a><span class="co">#&gt; [40,]  0.79467210</span></span>
+<span id="cb1-48"><a href="#cb1-48" tabindex="-1"></a>c <span class="ot">&lt;-</span> <span class="fu">t</span>(c)</span>
+<span id="cb1-49"><a href="#cb1-49" tabindex="-1"></a><span class="fu">EwmA</span>(c)</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<pre><code>#&gt;  [1] -0.651362960 -0.515225382 -0.314987031 -0.169454193  0.313374105
+#&gt;  [6]  0.356196047  0.013986804  0.696304241  0.831810382  0.001254818
+#&gt; [11] -0.068514357 -0.608374551 -0.113860196 -0.237919156 -0.122550189
+#&gt; [16] -0.189541229 -0.291473307 -0.011528753 -0.113526160 -0.364912963
+#&gt; [21]  0.401100152  0.808939442  1.367958214  1.623009836  1.053209495
+#&gt; [26]  1.252916449  1.184084149  1.143439990  1.312759390  1.739941519
+#&gt; [31]  1.032830766  1.123985478  1.102658424  1.423170826  1.472177219
+#&gt; [36]  1.798773433  1.514414070  1.924884223  1.630328230  1.296065777
+CusuM(c)</code></pre>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<pre><code>#&gt;  [1]  0.0000000  0.0000000  0.0000000  0.0000000  0.2876166  0.2876166
+#&gt;  [7]  0.2876166  1.2573969  1.5424665  1.5424665  1.5424665  1.5424665
+#&gt; [13]  1.5424665  1.5424665  1.5424665  1.5424665  1.5424665  1.5424665
+#&gt; [19]  1.5424665  1.5424665  2.3425864  3.0132847  4.4697711  5.7253584
+#&gt; [25]  5.7253584  6.5278353  6.8586710  7.1911447  8.0078832  9.6385979
+#&gt; [31]  9.6385979 10.1493155 10.4699833 11.6239227 12.4196095 13.9582773
+#&gt; [37] 14.2961523 16.0867418 16.5252360 16.5699081</code></pre>
+<p><br /></p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">10083</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(<span class="dv">100</span>,<span class="dv">0</span>,<span class="dv">1</span>),<span class="dv">1</span>,<span class="dv">100</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(<span class="dv">100</span>,<span class="dv">1</span>,<span class="dv">1</span>),<span class="dv">1</span>,<span class="dv">100</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>C <span class="ot">&lt;-</span> <span class="fu">cbind</span>(A,B)</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="fu">Shewhart</span>(C)</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- -->
+<br /> In these output charts, the x-axis represents time points, and the
+horizontal lines are significant lines. These plots are useful for
+identifying time points where data or products may exhibit problems.
+Normally, the connecting lines in the chart should remain below this
+horizontal line, indicating stable performance or the absence of
+significant differences at those time points.</p>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
