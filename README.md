@@ -18,4 +18,4 @@ Main contributors to this package:
 Yuhang Zhou
 Zhixin Tang
 Shuyu Liu
-![image](https://github.com/tzx517/SPCcharts/assets/153178004/503de975-c0a4-4ac8-898e-d742c92468c3)
+
