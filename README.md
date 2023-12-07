@@ -7,7 +7,7 @@ This R package provides tools for calculating and plotting Exponentially Weighte
 ## Installation:
 ```{r}
 library(devtools)
-install_github("tzx517/SPCcharts") 
+devtools::install_github("tzx517/SPCcharts") 
 ```
 
 ## Usage:
